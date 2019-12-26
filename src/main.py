@@ -1,7 +1,12 @@
-from database.database_manager_factory import DatabaseManagerFactory
+from database.database_client_factory import DatabaseClientFactory
 
 def main(arg) : 
-    database_manager = DatabaseManagerFactory.get_database_manager()
-    database_manager.execute_stored_procedure("dbo.SP_TEST", ['param1', 'param2'])
-    print('without errors')
+    try:
+        database_client = DatabaseClientFactory.get_database_client()
+        result = database_client.execute_stored_procedure("dbo.SP_TEST", ['param1', 'param2'])
+        print('without errors')
+        print(result)
+        print(result[2][4].TipoExamenId)
+    except Exception as err:
+        print(err.args)
 main(0)

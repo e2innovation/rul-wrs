@@ -3,8 +3,14 @@
 
 # In order to start with the development:
 # Install python and pip.
-# install the following packages:
-pip install virtualenv
-
 # execute the following commands:
 pip install -r requirements.txt
+
+# For execute the tests:
+python -m pytest test/
+
+# you can NET START/STOP the service by the following name
+"RUL-WRS"
+
+# Make this configuration
+https://blog.csdn.net/fxy0325/article/details/83389030
