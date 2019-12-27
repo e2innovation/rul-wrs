@@ -7,7 +7,7 @@ class DatabaseClientFactory:
         return DatabaseClient(
             'SQL SERVER',
             'DESKTOP-Q86DM30\SQLEXPRESS',
-            'Pacientes',
+            'RUL-WRS',
             'sa',
             '123456'
         )

@@ -2,7 +2,7 @@ import pyodbc
 import pytest
 from unittest.mock import Mock
 from unittest.mock import MagicMock
-from src.database.database_client import DatabaseClient
+from database.database_client import DatabaseClient
 
 @pytest.fixture
 def database_client():
@@ -107,3 +107,21 @@ def test_stored_procedure_execution_with_many_results(database_client):
             'height': 0.90
         }
     ]
+
+def test_stored_procedure_execution_without_arguments(database_client):
+    # Given
+    dummy_stored_procedure_name = 'dummy_stored_procedure'
+    
+    # Mock
+    cursor = database_client.connection.cursor.return_value
+    cursor.fetchall.return_value = None
+    
+    # When
+    result = database_client.execute_stored_procedure(dummy_stored_procedure_name)
+    
+    # Then
+    database_client.connection.cursor.assert_called_once()
+    cursor.execute.assert_called_once()
+    cursor.execute.assert_called_with("{CALL dummy_stored_procedure}", [])
+    cursor.fetchall.assert_called_once()
+    assert result == []

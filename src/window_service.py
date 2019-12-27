@@ -5,6 +5,9 @@ import servicemanager
 import sys
 import socket
 
+from orchestrator.orchestrator import Orchestrator 
+from database.storage import Storage
+
 class WindowService(win32serviceutil.ServiceFramework):
     _svc_name_ = "RUL-WRS"
     _svc_display_name_ = "RUL-WRS Servicio Windows"
@@ -14,7 +17,14 @@ class WindowService(win32serviceutil.ServiceFramework):
         win32serviceutil.ServiceFramework.__init__(self,args)
         # create an event to listen for stop requests on
         self.hWaitStop = win32event.CreateEvent(None, 0, 0, None)  
-        socket.setdefaulttimeout(60)  
+        socket.setdefaulttimeout(60)
+        self.orchestrator = Orchestrator(
+            Storage(),
+            None,
+            None,
+            None,
+            None
+        )
 
     def SvcStop(self):
         # tell the SCM we're shutting down
@@ -29,7 +39,7 @@ class WindowService(win32serviceutil.ServiceFramework):
         
         # if the stop event hasn't been fired keep looping
         while rc != win32event.WAIT_OBJECT_0:
-            f.write('TEST DATA\n')
+            self.orchestrator.monitor(f)
             f.flush()
             # block for 5 seconds and listen for a stop event
             rc = win32event.WaitForSingleObject(self.hWaitStop, 5000)

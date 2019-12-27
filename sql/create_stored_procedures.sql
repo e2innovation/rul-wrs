@@ -1,0 +1,15 @@
+use [RUL-WRS]
+go
+
+IF OBJECT_ID('dbo.MACHINE_SELECT') IS NULL
+EXEC('CREATE PROCEDURE dbo.MACHINE_SELECT AS SET NOCOUNT ON;')
+GO
+
+ALTER PROCEDURE dbo.MACHINE_SELECT
+AS 
+   SELECT	id,
+			[type],
+			[description],
+			[disabled]
+	FROM	Machine
+	ORDER BY id
