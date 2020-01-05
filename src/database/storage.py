@@ -8,3 +8,5 @@ class Storage:
         query_result = self.database_client.execute_stored_procedure("dbo.MACHINE_SELECT")
         machines = query_result[0]
         return [machine for machine in machines if machine.disabled == False]
+
+    

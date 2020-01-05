@@ -2,15 +2,17 @@
 # Remaining Useful Life (RUL) Wire rope Shovel
 
 # In order to start with the development:
-# Install python and pip.
-# execute the following commands:
+# Para iniciar debe de instalar la ultima version de python y luego de pip.
+
+# Para instalar las dependencias debe ejecutar el siguiente comando a nivel de la raiz del proyecto:
 pip install -r requirements.txt
 
-# For execute the tests:
+# Para ejecutar las pruebas use el siguiente comando a nivel del directorio src:
 python -m pytest test/
 
-# you can NET START/STOP the service by the following name
-"RUL-WRS"
+# Para generar el instalador del servicio, ejecute este comando en la raiz del proyecto:
+pyinstaller -F --hidden-import=win32timezone .\src\window_service.py
 
-# Make this configuration
-https://blog.csdn.net/fxy0325/article/details/83389030
+# Para instalar el servicio debe de abrir una consola cmd como administrador y ejecutar el siguiente
+# archivo generado con el paso anterior: dist/window_service.exe
+window_service.exe install

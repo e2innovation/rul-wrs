@@ -6,11 +6,9 @@ class Orchestrator:
         self.classifier = classifier
         self.predictor = predictor
 
-    def monitor(self, f):
+    def monitor(self):
         enabled_machines = self.storage.get_enabled_machines()
-        for machine in enabled_machines:
-            f.write(machine)            
-        pass
+        return enabled_machines
 
     """
     def _process_cycle(self, shovel, records):

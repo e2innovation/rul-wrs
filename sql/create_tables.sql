@@ -9,5 +9,4 @@ IF OBJECT_ID('dbo.Machine') IS NULL
 		[description] VARCHAR(4096),
 		[disabled] BIT
 	);
-
 GO

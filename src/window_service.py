@@ -1,9 +1,9 @@
-import win32service
-import win32serviceutil
-import win32event
 import servicemanager
 import sys
 import socket
+import win32event
+import win32service
+import win32serviceutil
 
 from orchestrator.orchestrator import Orchestrator 
 from database.storage import Storage
@@ -18,34 +18,17 @@ class WindowService(win32serviceutil.ServiceFramework):
         # create an event to listen for stop requests on
         self.hWaitStop = win32event.CreateEvent(None, 0, 0, None)  
         socket.setdefaulttimeout(60)
-        self.orchestrator = Orchestrator(
-            Storage(),
-            None,
-            None,
-            None,
-            None
-        )
 
     def SvcStop(self):
-        # tell the SCM we're shutting down
         self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
-        # fire the stop event
         win32event.SetEvent(self.hWaitStop)
 
-    # core logic of the service   
     def SvcDoRun(self):
-        f = open('test.dat', 'w+')
         rc = None
-        
-        # if the stop event hasn't been fired keep looping
         while rc != win32event.WAIT_OBJECT_0:
-            self.orchestrator.monitor(f)
-            f.flush()
-            # block for 5 seconds and listen for a stop event
+            with open('C:\\TestService.log', 'a') as f:
+                f.write('test service running...\n')
             rc = win32event.WaitForSingleObject(self.hWaitStop, 5000)
-            
-        f.write('SHUTTING DOWN\n')
-        f.close()
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
