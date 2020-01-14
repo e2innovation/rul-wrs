@@ -7,18 +7,13 @@ class Orchestrator:
         self.predictor = predictor
 
     def monitor(self):
-        enabled_machines = self.storage.get_enabled_machines()
-        return enabled_machines
-
-    """
-    def _process_cycle(self, shovel, records):
-        cycle = self.cycle_detector.detect_cycle(records)
-        life_time = 0
-        if cycle is not None:
-            self.database_client.register_complete_cycle(shovel, records)
-            features = self.pre_processor.pre_process(cycle)
-            labels = self.classifier.assign_type(features)
-            life_time = self.predictor(labels, features)
-        return life_time
-    """    
-    
+        machines = self.storage.get_equipo_pesado()
+        for machine in machines:
+            records = self.storage.get_input_records(machine)
+            (is_cycle, status_machine) = self.cycle_detector.is_cycle(records)
+            if status_machine == "no_working":
+                self.storage.turn_off_equipo_pesado(machine)
+            if is_cycle:
+                new_cycle = self.storage.create_cycle(machine, records)
+                features = self.pre_processor.get_features(records)
+                self.storage.save_features(new_cycle, features)
