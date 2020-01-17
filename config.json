@@ -1,9 +1,9 @@
 {
-    "storage": {
+    "base_datos": {
         "driver": "SQL SERVER",
-        "server": "DESKTOP-Q86DM30\\SQLEXPRESS",
-        "database": "RUL-WRS",
-        "user": "sa",
-        "password": "123456"
+        "servidor": "DESKTOP-Q86DM30\\SQLEXPRESS",
+        "base_datos": "RUL-WRS",
+        "usuario": "sa",
+        "contrasena": "123456"
     }
 }

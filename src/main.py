@@ -1,18 +1,18 @@
-from config_reader import ConfigReader
-from database.storage import Storage
-from database.database_client import DatabaseClient
+from acceso_configuracion import AccesoConfiguracion
+from acceso_datos.acceso_datos import AccesoDatos
+from acceso_datos.cliente_base_datos import ClienteBaseDatos
 
 def main(arg) : 
-    reader = ConfigReader("../config.json")
-    config = reader.get_value("storage")
-    client = DatabaseClient(
-            config["driver"],
-            config["server"],
-            config["database"],
-            config["user"],
-            config["password"]
+    acceso_configuracion = AccesoConfiguracion("../config.json")
+    configuracion = acceso_configuracion.obtener_configuracion("base_datos")
+    db_cliente = ClienteBaseDatos(
+            configuracion["driver"],
+            configuracion["servidor"],
+            configuracion["base_datos"],
+            configuracion["usuario"],
+            configuracion["contrasena"]
         )
-    storage = Storage(client)
-    print(storage.get_enabled_machines())
+    acceso_datos = AccesoDatos(db_cliente)
+    print(acceso_datos.seleccionar_equipos_pesados())
 
 main(0)
