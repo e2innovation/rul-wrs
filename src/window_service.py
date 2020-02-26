@@ -4,9 +4,10 @@ import socket
 import win32event
 import win32service
 import win32serviceutil
+import os
+import sys
 
-from orchestrator.orchestrator import Orchestrator 
-from database.storage import Storage
+from obtener_orquestador import ObtenerOrquestador 
 
 class WindowService(win32serviceutil.ServiceFramework):
     _svc_name_ = "RUL-WRS"
@@ -18,6 +19,9 @@ class WindowService(win32serviceutil.ServiceFramework):
         # create an event to listen for stop requests on
         self.hWaitStop = win32event.CreateEvent(None, 0, 0, None)  
         socket.setdefaulttimeout(60)
+        self.ruta_aplicacion = os.path.dirname(sys.executable)
+        ruta_archivo_configuracion = os.path.join(self.ruta_aplicacion, "config.json")
+        self.orquestador = ObtenerOrquestador.obtener_orquestador(ruta_archivo_configuracion)
 
     def SvcStop(self):
         self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
@@ -27,7 +31,8 @@ class WindowService(win32serviceutil.ServiceFramework):
         rc = None
         while rc != win32event.WAIT_OBJECT_0:
             with open('C:\\TestService.log', 'a') as f:
-                f.write('test service running...\n')
+                f.write('data:\n')
+                f.write(str(self.orquestador.obtener_equipos()))    
             rc = win32event.WaitForSingleObject(self.hWaitStop, 5000)
 
 if __name__ == '__main__':

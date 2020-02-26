@@ -37,32 +37,32 @@ def test_conexion_fallida():
     pyodbc.connect.assert_called_with("DRIVER={dummy_driver};SERVER=dummy_servidor;DATABASE=dummy_base_datos;UID=dummy_usuario;PWD=dummy_contraseña")
     assert error.value.args[0] == 'error code'
 
-def test_ejecucion_procedimient_almacenado_sin_resultado(cliente_base_datos):
+def test_ejecucion_procedimiento_almacenado_sin_resultado(cliente_base_datos):
     # Given
-    dummy_stored_procedure_name = 'dummy_stored_procedure'
-    dummy_parameters = ['arg1', 'arg2', 'arg3', 'arg4']
+    dummy_nombre_procedimiento_almacenado = 'dummy_procedimiento_almacenado'
+    dummy_parametros = ['arg1', 'arg2', 'arg3', 'arg4']
 
     # Mock
-    cursor = cliente_base_datos.connection.cursor.return_value
+    cursor = cliente_base_datos.conexion.cursor.return_value
     cursor.fetchall.return_value = None
     
     # When
-    result = cliente_base_datos.execute_stored_procedure(dummy_stored_procedure_name, dummy_parameters)
+    resultado = cliente_base_datos.ejecutar_procedimiento_almacenado(dummy_nombre_procedimiento_almacenado, dummy_parametros)
     
     # Then
-    cliente_base_datos.connection.cursor.assert_called_once()
+    cliente_base_datos.conexion.cursor.assert_called_once()
     cursor.execute.assert_called_once()
-    cursor.execute.assert_called_with("{CALL dummy_stored_procedure (?,?,?,?)}", ['arg1', 'arg2', 'arg3', 'arg4'])
+    cursor.execute.assert_called_with("{CALL dummy_procedimiento_almacenado (?,?,?,?)}", ['arg1', 'arg2', 'arg3', 'arg4'])
     cursor.fetchall.assert_called_once()
-    assert result == []
+    assert resultado == [[]] # Al menos se devuelve una tabla vacia
 
-def test_stored_procedure_execution_with_many_results(cliente_base_datos):
+def test_ejecucion_procedimiento_almacenado_con_varios_resultados(cliente_base_datos):
     # Given
-    dummy_stored_procedure_name = 'dummy_stored_procedure'
-    dummy_parameters = ['arg1', 'arg2', 'arg3']
+    dummy_nombre_procedimiento_almacenado = 'dummy_procedimiento_almacenado'
+    dummy_parametros = ['arg1', 'arg2', 'arg3']
 
     # Mock
-    cursor = cliente_base_datos.connection.cursor.return_value
+    cursor = cliente_base_datos.conexion.cursor.return_value
     cursor.fetchall = MagicMock(side_effect=[
         {
             'id': 1,
@@ -83,14 +83,14 @@ def test_stored_procedure_execution_with_many_results(cliente_base_datos):
     ])
 
     # When
-    result = cliente_base_datos.execute_stored_procedure(dummy_stored_procedure_name, dummy_parameters)
+    resultado = cliente_base_datos.ejecutar_procedimiento_almacenado(dummy_nombre_procedimiento_almacenado, dummy_parametros)
     
     # Then
-    cliente_base_datos.connection.cursor.assert_called_once()
+    cliente_base_datos.conexion.cursor.assert_called_once()
     cursor.execute.assert_called_once()
-    cursor.execute.assert_called_with("{CALL dummy_stored_procedure (?,?,?)}", ['arg1', 'arg2', 'arg3'])
+    cursor.execute.assert_called_with("{CALL dummy_procedimiento_almacenado (?,?,?)}", ['arg1', 'arg2', 'arg3'])
     assert len(cursor.fetchall.mock_calls) == 4
-    assert result == [
+    assert resultado == [
         {
             'id': 1,
             'name': 'Juan',
@@ -108,20 +108,20 @@ def test_stored_procedure_execution_with_many_results(cliente_base_datos):
         }
     ]
 
-def test_stored_procedure_execution_without_arguments(cliente_base_datos):
+def test_procedimiento_almacenado_ejecucion_sin_argumentos(cliente_base_datos):
     # Given
-    dummy_stored_procedure_name = 'dummy_stored_procedure'
+    dummy_nombre_procedimiento_almacenado = 'dummy_procedimiento_almacenado'
     
     # Mock
-    cursor = cliente_base_datos.connection.cursor.return_value
+    cursor = cliente_base_datos.conexion.cursor.return_value
     cursor.fetchall.return_value = None
     
     # When
-    result = cliente_base_datos.execute_stored_procedure(dummy_stored_procedure_name)
+    resultado = cliente_base_datos.ejecutar_procedimiento_almacenado(dummy_nombre_procedimiento_almacenado)
     
     # Then
-    cliente_base_datos.connection.cursor.assert_called_once()
+    cliente_base_datos.conexion.cursor.assert_called_once()
     cursor.execute.assert_called_once()
-    cursor.execute.assert_called_with("{CALL dummy_stored_procedure}", [])
+    cursor.execute.assert_called_with("{CALL dummy_procedimiento_almacenado}", [])
     cursor.fetchall.assert_called_once()
-    assert result == []
+    assert resultado == [[]]  # Al menos se devuelve una tabla vacia
