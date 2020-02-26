@@ -1,0 +1,9 @@
+{
+    "base_datos": {
+        "driver": "SQL SERVER",
+        "servidor": "DESKTOP-Q86DM30\\SQL_BRIGGI",
+        "base_datos": "RUL-WRS",
+        "usuario": "sa",
+        "contrasena": "123456"
+    }
+}

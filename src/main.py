@@ -2,7 +2,7 @@ from acceso_configuracion import AccesoConfiguracion
 from acceso_datos.acceso_datos import AccesoDatos
 from acceso_datos.cliente_base_datos import ClienteBaseDatos
 
-def main(arg) : 
+def main(arg) :
     acceso_configuracion = AccesoConfiguracion("../config.json")
     configuracion = acceso_configuracion.obtener_configuracion("base_datos")
     db_cliente = ClienteBaseDatos(

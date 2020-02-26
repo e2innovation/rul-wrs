@@ -8,7 +8,7 @@
 pip install -r requirements.txt
 
 # Para ejecutar las pruebas use el siguiente comando a nivel del directorio src:
-python -m pytest test/
+python -m pytest -v test/
 
 # Para generar el instalador del servicio, ejecute este comando en la raiz del proyecto:
 pyinstaller -F --hidden-import=win32timezone .\src\window_service.py

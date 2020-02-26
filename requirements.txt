@@ -4,3 +4,5 @@ pyodbc==4.0.27
 pylint==2.4.4
 pywin32==227
 pyinstaller==3.5
+pandas==1.0.1
+numpy==1.16.0

@@ -2,12 +2,12 @@ import pyodbc
 
 class ClienteBaseDatos:
     def __init__(self, driver, servidor, base_datos, usuario, contraseña):
-        self.coneccion = pyodbc.connect(
+        self.conexion = pyodbc.connect(
             f"DRIVER={{{driver}}};SERVER={servidor};DATABASE={base_datos};UID={usuario};PWD={contraseña}"
         )
 
     def ejecutar_procedimiento_almacenado(self, procedimiento_almacenado, parametros = []):
-        cursor = self.coneccion.cursor()
+        cursor = self.conexion.cursor()
         marcas_parametros = "" if len(parametros) == 0 else f" ({','.join(['?'] * len(parametros))})"
         cursor.execute(f"{{CALL {procedimiento_almacenado}{marcas_parametros}}}", parametros)
         resultado = []
@@ -19,5 +19,5 @@ class ClienteBaseDatos:
             else:
                 filas = None
         cursor.close()
-        return resultado
+        return resultado if len(resultado) > 0 else [[]] # Si no trae ningun resultado al menos se devuelve una sola tabla vacia
         
