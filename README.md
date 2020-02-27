@@ -19,15 +19,10 @@ Para instalar las dependencias debe ejecutar el siguiente comando a nivel de la 
 pip install -r requirements.txt
 ``
 
-<<<<<<< HEAD
 Para ejecutar las pruebas use el siguiente comando a nivel del directorio *src*:    
 ``
 python -m pytest test/
 ``
-=======
-# Para ejecutar las pruebas use el siguiente comando a nivel del directorio src:
-python -m pytest -v test/
->>>>>>> Agregar detector de ciclos
 
 Para generar el instalador del servicio, ejecute este comando en la raíz del proyecto:  
 ```
