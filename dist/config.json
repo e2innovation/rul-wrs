@@ -1,9 +1,0 @@
-{
-    "storage": {
-        "driver": "SQL SERVER",
-        "server": "DESKTOP-Q86DM30\\SQLEXPRESS",
-        "database": "RUL-WRS",
-        "user": "sa",
-        "password": "123456"
-    }
-}

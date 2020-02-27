@@ -1,2 +1,3 @@
 class Preprocesador:
-    pass
+    def obtener_caracteristicas(self, registros):
+        pass
