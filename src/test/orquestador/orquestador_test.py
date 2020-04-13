@@ -68,6 +68,7 @@ def registros_entrada():
 
 def test_prender_equipo_pesado_apagado_cuando_se_detecta_actividad(orquestador, equipos_pesados):
     # Mock / Given
+<<<<<<< Updated upstream
     orquestador.acceso_datos.seleccionar_equipos_pesados = MagicMock(return_value = equipos_pesados)
     orquestador.detector_ciclos.es_ciclo = Mock(side_effect = [
         (False, EstadoEquipoPesado.FUNCIONANDO),
@@ -75,11 +76,17 @@ def test_prender_equipo_pesado_apagado_cuando_se_detecta_actividad(orquestador, 
         (False, EstadoEquipoPesado.FUNCIONANDO),
         (False, EstadoEquipoPesado.APAGADO)
     ])
+=======
+    orquestador.acceso_datos.seleccionar_equipos_pesados_activos = MagicMock(return_value = equipos_pesados)
+    orquestador.acceso_datos.seleccionar_registros_entrada = MagicMock(return_value = registros_entrada)
+    orquestador.detector_ciclos.detectar_ciclos = Mock(side_effect = ciclos)
+>>>>>>> Stashed changes
 
     # When
     orquestador.monitorear()
 
     # Then
+<<<<<<< Updated upstream
     assert(orquestador.detector_ciclos.seleccionar_registro_entrada.call_count, 4)
     assert(orquestador.detector_ciclos.es_ciclo.call_count, 4)
     orquestador.acceso_datos.cambiar_estado_equipo_pesado.assert_called_once_with(
@@ -92,9 +99,22 @@ def test_prender_equipo_pesado_apagado_cuando_se_detecta_actividad(orquestador, 
         },
         EstadoEquipoPesado.FUNCIONANDO
     )
+=======
+    assert(orquestador.acceso_datos.seleccionar_equipos_pesados_activos.call_count == 1)
+    assert(orquestador.acceso_datos.guardar_ciclo.call_count == 5)
+    orquestador.acceso_datos.guardar_ciclo.assert_has_calls([
+        call({ "CICLO_ID": "ciclo1" }),
+        call({ "CICLO_ID": "ciclo2" }),
+        call({ "CICLO_ID": "ciclo3" }),
+        call({ "CICLO_ID": "ciclo4" }),
+        call({ "CICLO_ID": "ciclo5" })
+    ])
+
+>>>>>>> Stashed changes
 
 def test_apagar_equipo_pesado_funcionando_cuando_no_se_detecta_actividad(orquestador, equipos_pesados):
     # Mock / Given
+<<<<<<< Updated upstream
     orquestador.acceso_datos.seleccionar_equipos_pesados = MagicMock(return_value = equipos_pesados)
     orquestador.detector_ciclos.es_ciclo = Mock(side_effect = [
         (False, EstadoEquipoPesado.FUNCIONANDO),
@@ -102,11 +122,15 @@ def test_apagar_equipo_pesado_funcionando_cuando_no_se_detecta_actividad(orquest
         (False, EstadoEquipoPesado.APAGADO), # Este se apagó
         (False, EstadoEquipoPesado.APAGADO)
     ])
+=======
+    orquestador.acceso_datos.seleccionar_equipos_pesados_activos = MagicMock(return_value = [])
+>>>>>>> Stashed changes
 
     # When
     orquestador.monitorear()
 
     # Then
+<<<<<<< Updated upstream
     assert(orquestador.detector_ciclos.seleccionar_registro_entrada.call_count, 4)
     assert(orquestador.detector_ciclos.es_ciclo.call_count, 4)
     orquestador.acceso_datos.cambiar_estado_equipo_pesado.assert_called_once_with(
@@ -119,9 +143,17 @@ def test_apagar_equipo_pesado_funcionando_cuando_no_se_detecta_actividad(orquest
         },
         EstadoEquipoPesado.APAGADO
     )
+=======
+    assert(orquestador.acceso_datos.seleccionar_equipos_pesados_activos.call_count == 1)
+    assert(orquestador.detector_ciclos.seleccionar_registro_entrada.call_count == 0)
+    assert(orquestador.detector_ciclos.detectar_ciclos.call_count == 0)
+    assert(orquestador.acceso_datos.guardar_ciclo.call_count == 0)
+
+>>>>>>> Stashed changes
 
 def test_crear_ciclo_y_procesar_registros_cuando_se_detecta_nuevo_ciclo(orquestador, equipos_pesados, registros_entrada):
     # Mock / Given
+<<<<<<< Updated upstream
     orquestador.acceso_datos.seleccionar_equipos_pesados = MagicMock(return_value = equipos_pesados)
     orquestador.acceso_datos.seleccionar_registro_entrada = Mock(side_effect = registros_entrada)
     orquestador.detector_ciclos.es_ciclo = Mock(side_effect = [
@@ -142,11 +174,17 @@ def test_crear_ciclo_y_procesar_registros_cuando_se_detecta_nuevo_ciclo(orquesta
       { "A": "caracteristica10", "B": "caracteristica11", "C": "caracteristica12" },
       { "A": "caracteristica13", "B": "caracteristica14", "C": "caracteristica15" }  
     ])
+=======
+    orquestador.acceso_datos.seleccionar_equipos_pesados_activos = MagicMock(return_value = equipos_pesados)
+    orquestador.acceso_datos.seleccionar_registros_entrada = MagicMock(return_value = registros_entrada)
+    orquestador.detector_ciclos.detectar_ciclos = Mock(side_effect = [[],[]])
+>>>>>>> Stashed changes
 
     # When
     orquestador.monitorear()
 
     # Then
+<<<<<<< Updated upstream
     assert(orquestador.detector_ciclos.seleccionar_registro_entrada.call_count, 4)
     assert(orquestador.detector_ciclos.es_ciclo.call_count, 4)
     registros_esperados = [
@@ -179,3 +217,10 @@ def test_crear_ciclo_y_procesar_registros_cuando_se_detecta_nuevo_ciclo(orquesta
             { "A": "caracteristica13", "B": "caracteristica14", "C": "caracteristica15" }  
         ]
     )
+=======
+    assert(orquestador.acceso_datos.seleccionar_equipos_pesados_activos.call_count == 1)
+    assert(orquestador.detector_ciclos.detectar_ciclos.call_count == 2)
+    assert(orquestador.acceso_datos.guardar_ciclo.call_count == 0)
+
+
+>>>>>>> Stashed changes

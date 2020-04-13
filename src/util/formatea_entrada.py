@@ -15,12 +15,12 @@ class FormateaEntrada:
 
     @staticmethod
     def generar_campos_inv(dataframe):
-        dataframe['LONGITUD_CABLE_HOIST_INV'] = dataframe[['LONGITUD_CABLE_HOIST']].apply(lambda x : x * -1)
-        dataframe['VELOCIDAD_HOIST_INV'] = dataframe.loc[:,'VELOCIDAD_HOIST'].apply(lambda x : x * -0.1)
-        dataframe['DIG_MODE'] = dataframe.loc[:,'BYTE_ESTATUS_3'].apply(lambda x : x & 2) # nos indica que se encuentra en modo excavación
-        dataframe['DIPEER_TRIP'] = dataframe.loc[:,'BYTE_ESTATUS_3'].apply(lambda x : x & 1) # se activa con la orden de apertura de compuerta de balde
-        dataframe['TORQUE_HOIST_INV'] = dataframe[['TORQUE_HOIST']].apply(lambda x : x * -1)
-        dataframe['CORRIENTE_IW_HOIST_INV'] = dataframe[['CORRIENTE_IW_HOIST']].apply(lambda x : x * -1)
+        dataframe['HOIST_ROPE_LENGTH_INV'] = dataframe[['HOIST_ROPE_LENGTH']].apply(lambda x : x * -1)
+        dataframe['HOIST_SPEED_INV'] = dataframe.loc[:,'HOIST_SPEED'].apply(lambda x : x * -0.1)
+        dataframe['DIG_MODE'] = dataframe.loc[:,'STATUS_BYTE_3'].apply(lambda x : int(x) & 2) # nos indica que se encuentra en modo excavación
+        dataframe['DIPEER_TRIP'] = dataframe.loc[:,'STATUS_BYTE_3'].apply(lambda x : x & 1) # se activa con la orden de apertura de compuerta de balde
+        dataframe['HOIST_TORQUE_INV'] = dataframe[['HOIST_TORQUE']].apply(lambda x : x * -1)
+        dataframe['HOIST_IW_INV'] = dataframe[['HOIST_IW']].apply(lambda x : x * -1)
         return dataframe
 
     @staticmethod

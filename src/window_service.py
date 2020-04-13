@@ -5,9 +5,7 @@ import win32event
 import win32service
 import win32serviceutil
 import os
-import sys
-
-from obtener_orquestador import ObtenerOrquestador 
+from acceso_configuracion import AccesoConfiguracion
 
 class WindowService(win32serviceutil.ServiceFramework):
     _svc_name_ = "RUL-WRS"
@@ -18,22 +16,23 @@ class WindowService(win32serviceutil.ServiceFramework):
         win32serviceutil.ServiceFramework.__init__(self,args)
         # create an event to listen for stop requests on
         self.hWaitStop = win32event.CreateEvent(None, 0, 0, None)  
-        socket.setdefaulttimeout(60)
-        self.ruta_aplicacion = os.path.dirname(sys.executable)
-        ruta_archivo_configuracion = os.path.join(self.ruta_aplicacion, "config.json")
-        self.orquestador = ObtenerOrquestador.obtener_orquestador(ruta_archivo_configuracion)
-
+        socket.setdefaulttimeout(120)
+        
     def SvcStop(self):
         self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
         win32event.SetEvent(self.hWaitStop)
 
     def SvcDoRun(self):
+        ruta_aplicacion = os.path.dirname(sys.executable)
+        ruta_archivo_configuracion = os.path.join(ruta_aplicacion, "config.json")
+        acceso_configuracion = AccesoConfiguracion(ruta_archivo_configuracion)
+        configuracion = acceso_configuracion.obtener_configuracion("servicio_windows")
         rc = None
         while rc != win32event.WAIT_OBJECT_0:
-            with open('C:\\TestService.log', 'a') as f:
-                f.write('data:\n')
-                f.write(str(self.orquestador.obtener_equipos()))    
-            rc = win32event.WaitForSingleObject(self.hWaitStop, 5000)
+            ruta_aplicacion = os.path.dirname(sys.executable)
+            ruta_archivo_cli_exe = os.path.join(ruta_aplicacion, "cli.exe")
+            os.startfile(ruta_archivo_cli_exe)
+            rc = win32event.WaitForSingleObject(self.hWaitStop, configuracion["tiempo_espera_milisegundos"])
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:

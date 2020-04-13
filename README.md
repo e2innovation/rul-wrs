@@ -34,3 +34,14 @@ Para instalar el servicio debe de abrir una consola *cmd* como administrador y e
 ```
 window_service.exe install
 ```
+
+
+# Correr tests:
+python -m pytest -vv .\src\
+python -m pytest -vv .\src\integration\
+
+# Generar ejecutables:
+# cli: 
+pyinstaller -F .\src\cli.py
+# Servicio Windows
+pyinstaller -F --hidden-import=win32timezone .\window_service.py
