@@ -10,6 +10,7 @@ class ClienteBaseDatos:
         cursor = self.conexion.cursor()
         marcas_parametros = "" if len(parametros) == 0 else f" ({','.join(['?'] * len(parametros))})"
         cursor.execute(f"{{CALL {procedimiento_almacenado}{marcas_parametros}}}", parametros)
+<<<<<<< HEAD
         resultado = []
         filas = cursor.fetchall()
         while filas:
@@ -21,3 +22,21 @@ class ClienteBaseDatos:
         cursor.close()
         return resultado if len(resultado) > 0 else [[]] # Si no trae ningun resultado al menos se devuelve una sola tabla vacia
         
+=======
+        if not cursor.description is None:
+            columnas = [columna[0] for columna in cursor.description]
+            resultados = []
+            filas = cursor.fetchall()
+            while filas:
+                resultado = []
+                for fila in filas:
+                    resultado.append(dict(zip(columnas, fila)))
+                resultados.append(resultado)
+                if cursor.nextset():
+                    filas = cursor.fetchall()
+                else:
+                    filas = None
+            cursor.close()
+            return resultados if len(resultados) > 0 else [[]] # Si no trae ningun resultado al menos se devuelve una sola tabla vacia
+        return None
+>>>>>>> 4f30acdbc6afbe9b80afb7bf07f99ee29d47ee49

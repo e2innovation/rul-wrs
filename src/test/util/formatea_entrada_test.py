@@ -59,11 +59,19 @@ def test_generar_dataframe_con_formato_desde_registros_entrada():
 def test_generar_campos_inv_desde_dataframe():
     # Given
     dataframe = pd.DataFrame({
+<<<<<<< HEAD
             'LONGITUD_CABLE_HOIST': [20, 25, 30],
             'VELOCIDAD_HOIST': [30.0, 35.3, 40.2],
             'BYTE_ESTATUS_3': [12, 10, 9],
             'TORQUE_HOIST': [10, 11, 12],
             'CORRIENTE_IW_HOIST': [23, 30, 40]
+=======
+            'HOIST_ROPE_LENGTH': [20, 25, 30],
+            'HOIST_SPEED': [30.0, 35.3, 40.2],
+            'STATUS_BYTE_3': [12, 10, 9],
+            'HOIST_TORQUE': [10, 11, 12],
+            'HOIST_IW': [23, 30, 40]
+>>>>>>> 4f30acdbc6afbe9b80afb7bf07f99ee29d47ee49
         }
     )
 
@@ -72,6 +80,7 @@ def test_generar_campos_inv_desde_dataframe():
 
     # Then
     resultado_esperado = pd.DataFrame({
+<<<<<<< HEAD
             'LONGITUD_CABLE_HOIST_INV': [-20, -25, -30],
             'VELOCIDAD_HOIST_INV': [-3.0, -3.53, -4.02],
             'DIG_MODE': [0, 2, 0],
@@ -86,6 +95,22 @@ def test_generar_campos_inv_desde_dataframe():
     assert_series_equal(dataframe['DIPEER_TRIP'], resultado_esperado['DIPEER_TRIP'])
     assert_series_equal(dataframe['TORQUE_HOIST_INV'], resultado_esperado['TORQUE_HOIST_INV'])
     assert_series_equal(dataframe['CORRIENTE_IW_HOIST_INV'], resultado_esperado['CORRIENTE_IW_HOIST_INV'])
+=======
+            'HOIST_ROPE_LENGTH_INV': [-20, -25, -30],
+            'HOIST_SPEED_INV': [-3.0, -3.53, -4.02],
+            'DIG_MODE': [0, 2, 0],
+            'DIPEER_TRIP': [0, 0, 1],
+            'HOIST_TORQUE_INV': [-10, -11, -12],
+            'HOIST_IW_INV': [-23, -30, -40]
+        }
+    )
+    assert_series_equal(dataframe['HOIST_ROPE_LENGTH_INV'], resultado_esperado['HOIST_ROPE_LENGTH_INV'])
+    assert_series_equal(dataframe['HOIST_SPEED_INV'], resultado_esperado['HOIST_SPEED_INV'])
+    assert_series_equal(dataframe['DIG_MODE'], resultado_esperado['DIG_MODE'])
+    assert_series_equal(dataframe['DIPEER_TRIP'], resultado_esperado['DIPEER_TRIP'])
+    assert_series_equal(dataframe['HOIST_TORQUE_INV'], resultado_esperado['HOIST_TORQUE_INV'])
+    assert_series_equal(dataframe['HOIST_IW_INV'], resultado_esperado['HOIST_IW_INV'])
+>>>>>>> 4f30acdbc6afbe9b80afb7bf07f99ee29d47ee49
 
 
 def test_normalizar_campo_de_dataframe():
