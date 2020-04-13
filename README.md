@@ -1,5 +1,5 @@
 
-<p align="center"><img src="http://www.e2i.tech/images/E2I.png" width="196px"><p>
+<p align="center"><img src="http://www.e2i.com.pe/images/E2I.png" width="196px"><p>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
@@ -19,10 +19,8 @@ Para instalar las dependencias debe ejecutar el siguiente comando a nivel de la 
 pip install -r requirements.txt
 ``
 
-Para ejecutar las pruebas use el siguiente comando a nivel del directorio *src*:    
-``
-python -m pytest test/
-``
+# Para ejecutar las pruebas use el siguiente comando a nivel del directorio src:
+python -m pytest -vv .\src\test\ --cov=.\src\
 
 Para generar el instalador del servicio, ejecute este comando en la raíz del proyecto:  
 ```
